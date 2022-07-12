@@ -26,7 +26,7 @@
 - Очистка данных
 
 ## Результат
-Файл с преобразованными и очищенными данными [hh_data_cleaned.csv](https://disk.yandex.ru/d/tGhRcWefNnkzTQ).*
+Файл с преобразованными и очищенными данными [hh_data_cleaned.csv](https://disk.yandex.ru/d/tGhRcWefNnkzTQ).
 
 ## Выводы
 Для прогнозирования заработной платы важны параметры:
@@ -37,6 +37,7 @@
 - тип занятости
 - готовность к переезду или командировкам
 - город
+
 Важна так же должность, но этот признак не рассматривался.
 
 :arrow_up:[к оглавлению](https://github.com/experiment0/sf_data_science/blob/main/project_1/README.md#Оглавление)
