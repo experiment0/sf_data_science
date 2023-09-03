@@ -1,11 +1,11 @@
-# My Data Science projects
-
-From the [SkillFactory Data Science course](https://skillfactory.ru/data-scientist-pro)
-
 ## Проекты
 
-* [Проект 0. Определение производительности функции, которая рандомно угадывает число](https://github.com/experiment0/sf_data_science/tree/main/project_0)
-* [Проект 1. Анализ вакансий на hh.ru](https://github.com/experiment0/sf_data_science/tree/main/project_1)
-* [Проект 2. Анализ вакансий из HeadHunter](https://github.com/experiment0/sf_data_science/tree/main/project_2)
+Данные проекты реализованы в рамках учебного курса [Профессия Data Scientist](https://skillfactory.ru/data-scientist-pro)
+
+- [Проект 0. Определение производительности функции, которая рандомно угадывает число](https://github.com/experiment0/sf_data_science/tree/main/project_0)
+- [Проект 1. Анализ вакансий на hh.ru](https://github.com/experiment0/sf_data_science/tree/main/project_1)
+- [Проект 2. Анализ вакансий из HeadHunter](https://github.com/experiment0/sf_data_science/tree/main/project_2)
+- [Проект 3. Статистические тесты в контексте EDA](https://github.com/experiment0/sf_data_science/tree/main/project_3)
+- [Проект 4. Прогнозирование рейтинга отелей](https://github.com/experiment0/sf_data_science/tree/main/project_4)
 
 ## Ссылки на резюме
