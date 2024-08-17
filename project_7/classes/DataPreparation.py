@@ -4,8 +4,7 @@ from enum import Enum
 from sklearn import preprocessing
 from sklearn import model_selection
 from sklearn import cluster
-from sklearn import feature_selection
-from typing import Tuple, Union
+from typing import Tuple
 
 # Вспомогательные функции
 from helpers.geography import get_haversine_distance, get_angle_direction
