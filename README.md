@@ -9,5 +9,6 @@
 - [Проект 4. Прогнозирование рейтинга отелей](https://github.com/experiment0/sf_data_science/tree/main/project_4)
 - [Проект 5. Подбор гиперпараметров для моделей логистическая регрессия и случайный лес](https://github.com/experiment0/sf_data_science/tree/main/project_5)
 - [Проект 6. Решение задачи классификации](https://github.com/experiment0/sf_data_science/tree/main/project_6)
+- [Проект 7. Предсказание длительности поездки на такси (решение задачи регрессии)](https://github.com/experiment0/sf_data_science/tree/main/project_7)
 
 ## Ссылки на резюме
