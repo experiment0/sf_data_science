@@ -7,8 +7,27 @@ import matplotlib.pyplot as plt
 import seaborn as sns 
 import plotly.graph_objects as go
 from IPython.display import display
+from IPython.core.display import HTML
 from helpers.prepare_data import F
 
+
+def show_and_save_fig(fig: go.Figure, file_name: str):
+    """Показывает и сохраняет график.
+
+    Args:
+        fig (Figure): объект с графиком
+        file_name (str): имя файла графика без расширения
+    """
+    path_image = f'./plotly/{file_name}.png'
+    path_html = f'./plotly/{file_name}.html'
+    
+    fig.show()
+    fig.write_image(path_image)
+    fig.write_html(path_html)
+    
+    display(HTML(f'<img src="{path_image}" /><br />'))
+    display(HTML(f'<em>html графика в файле <a href="{path_html}" target="_blank">{path_html}</a></em>'))
+    
 
 def display_distribution(rfm_data: pd.DataFrame) -> None:
     """Выводит гистрограмму и коробчатую диаграмму для каждого признака в таблице
@@ -98,13 +117,14 @@ def display_components_clustering(
     # название оси ординат
     ax.set_ylabel('Component 2') 
 
-
-def display_cluster_profiles(data: pd.DataFrame) -> None:
+    
+def display_cluster_profiles(data: pd.DataFrame, file_name: str) -> None:
     """Выводит полярную диаграмму для каждого кластера в переданных данных
 
     Args:
         data (pd.DataFrame): данные профилей кластеров 
             (средние значения характеристик для каждого признака в кластере)
+        file_name (str): имя файла, с которым будет сохранен график
     """
     # Определяем количество кластеров
     clusters_count = data.shape[0]
@@ -138,7 +158,7 @@ def display_cluster_profiles(data: pd.DataFrame) -> None:
     )
     
     # Отображаем фигуру
-    fig.show()
+    show_and_save_fig(fig, file_name)
     
 
 def display_cluster_describe(

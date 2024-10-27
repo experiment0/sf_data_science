@@ -7,7 +7,7 @@
 [Краткая информация о данных](https://github.com/experiment0/sf_data_science/blob/main/project_8/README.md#Краткая-информация-о-данных)\
 [Этапы работы над проектом](https://github.com/experiment0/sf_data_science/blob/main/project_8/README.md#Этапы-работы-над-проектом)\
 [Описание файлов проекта](https://github.com/experiment0/sf_data_science/blob/main/project_8/README.md#Описание-файлов-проекта)\
-[Результат](https://github.com/experiment0/sf_data_science/blob/main/project_8/README.md#Результат)\
+[Результат](https://github.com/experiment0/sf_data_science/blob/main/project_8/README.md#Результат)
 
 ## Описание проекта
 
@@ -48,6 +48,7 @@
     - [display.py](./helpers/display.py) - функции для построения графиков и вывода таблиц;
     - [prepare_data.py](./helpers/prepare_data.py) - функции для обработки данных;
     - [segmentation.py](./helpers/segmentation.py) - функции для сегментации данных.
+- В папке [./plotly](./plotly/) находятся изображения и html файлы с графиками, которые сгенерированы для отображения на github. 
 
 ## Результат
 
