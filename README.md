@@ -10,5 +10,6 @@
 - [Проект 5. Подбор гиперпараметров для моделей логистическая регрессия и случайный лес](https://github.com/experiment0/sf_data_science/tree/main/project_5)
 - [Проект 6. Решение задачи классификации](https://github.com/experiment0/sf_data_science/tree/main/project_6)
 - [Проект 7. Предсказание длительности поездки на такси (решение задачи регрессии)](https://github.com/experiment0/sf_data_science/tree/main/project_7)
+- [Проект 8. Сегментация клиентов онлайн-магазина подарков](https://github.com/experiment0/sf_data_science/tree/main/project_8)
 
 ## Ссылки на резюме
