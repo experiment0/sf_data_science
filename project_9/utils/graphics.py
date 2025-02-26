@@ -258,7 +258,7 @@ def display_inertia(data: pd.DataFrame, min_clusters: int, max_clusters) -> None
         result_inertia['inertia'].append(inertia)
         result_inertia['clusters_count'].append(clusters_count)
     
-    result_inertia_data = pd.DataFrame(result_inertia)    
+    result_inertia_data = pd.DataFrame(result_inertia)
     # Визуализируем зависимость значения инерции от количества кластеров
     fig = plt.figure(figsize=(10, 5))
     lineplot = sns.lineplot(data=result_inertia_data, x='clusters_count', y='inertia', marker= 'o')
