@@ -122,11 +122,12 @@ class F(Enum):
     HealthCareCostsPerCapita = 'HealthCareCostsPerCapita'
     GdpPerCapita = 'GdpPerCapita'
     Population = 'Population'
-    Schooling = 'Schooling'
-    SmoothingLifeExpectancy = 'SmoothingLifeExpectancy'
+    Schooling = 'Schooling'    
     ClusterKMeans = 'ClusterKMeans'
     PositiveCoef = 'PositiveCoef'
     NegativeCoef = 'NegativeCoef'
+    ImmunizationMean = 'ImmunizationMean'
+    SmoothingLifeExpectancy = 'SmoothingLifeExpectancy'
 
 
 # Имя целевого признака 
@@ -553,6 +554,12 @@ fields = {
     },
     F.NegativeCoef.value: {
         'description': 'Коэффициент неблагополучия страны',
+        'origin_category': FieldOriginCategory.GENERATED.value,
+        'is_predictor': True,
+    },
+    F.ImmunizationMean.value: {
+        'description': 'Среднее значение охвата иммунизацией детей в возрасте 1 года '+
+            'от кори, полиомелита, дифтерии, столбняка и коколюша (%)',
         'origin_category': FieldOriginCategory.GENERATED.value,
         'is_predictor': True,
     },
