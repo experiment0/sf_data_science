@@ -371,12 +371,19 @@ def convert_year_to_date_index(data_source: pd.DataFrame) -> pd.DataFrame:
     return data
 
 
-def get_location_time_series(data: pd.DataFrame, code: str) -> pd.Series:
+def get_location_time_series(
+    data: pd.DataFrame, 
+    code: str,
+    value_feature_name: str = F.LifeExpectancy.value,
+) -> pd.Series:
     """Возвращает данные с временным рядом для заданной страны
 
     Args:
         data (pd.DataFrame): исходные данные
         code (str): код страны
+        value_feature_name: (str, optional): имя признака, 
+            из значений которого составляется временной ряд.
+            По умолчанию - целевой признак продолжительности жизни LifeExpectancy
 
     Returns:
         pd.Series: сформированный временной ряд
@@ -386,7 +393,7 @@ def get_location_time_series(data: pd.DataFrame, code: str) -> pd.Series:
     # Отделяем данные для заданной страны
     location_data = data[location_mask]
     # Оставляем только временной и целевой признаки
-    location_time_series = location_data[[F.Period.value, F.LifeExpectancy.value]]
+    location_time_series = location_data[[F.Period.value, value_feature_name]]
     # Переводим столбец с годом в индекс с типом datetime
     location_time_series = convert_year_to_date_index(location_time_series)
     
@@ -518,7 +525,7 @@ def get_data_with_smoothing_target_feature(
     train_data[F.Period.value] = train_data[F.Period.value].astype(int)
     test_data[F.Period.value] = test_data[F.Period.value].astype(int)
     
-    # Переведем новый столбец с тип float
+    # Переведем новый столбец в тип float
     train_data[F.SmoothingLifeExpectancy.value] = \
       train_data[F.SmoothingLifeExpectancy.value].astype(float)
     test_data[F.SmoothingLifeExpectancy.value] = \
