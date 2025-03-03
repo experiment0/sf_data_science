@@ -2,6 +2,7 @@
 
 import numpy as np
 import pandas as pd
+import time
 
 
 def get_multicolinear_pairs(
@@ -46,3 +47,18 @@ def get_multicolinear_pairs(
             multicolinear_pairs.append((pair, corr_between_colls))
             
     return multicolinear_pairs
+
+
+def get_exec_time(start: float, end: float) -> str:
+    """Возвращает время выполнения в секундах
+
+    Args:
+        start (float): время начала
+        end (float): время окончания
+
+    Returns:
+        str: строка с форматированным временем выполнения
+    """
+    duration = end - start
+    formatted_duration = time.strftime("%H:%M:%S", time.gmtime(duration))
+    return formatted_duration

@@ -22,6 +22,10 @@ regions_and_locations_data = pd.read_csv(
 child_mortality_data = pd.read_csv(
     '../data/who_child_0_5_mortality_prepared.csv'
 )
+# Загружаем таблицу с порядком интегрирования рядов продолжительности жизни разных стран
+integration_order_data = pd.read_csv(
+    '../data/integration_order.csv'
+)
 
 
 def move_column_to_end_table(
@@ -235,8 +239,14 @@ def extract_predictors(
     predictors = get_predictors(data) + additional_predictors
     if (not should_include_time_feature):
         predictors.remove(F.Period.value)
+    
+    # Список колонок исходноу таблицы
+    columns = list(data.columns)
+    
+    # Оставим колонки, которые есть и в таблице и в предикторах
+    result_predictors = list(set(predictors) & set(columns))
 
-    return data[predictors]
+    return data[result_predictors]
 
 
 def get_train_test_split(
@@ -583,3 +593,19 @@ def get_scaled_data(
         scaled_data[cluster_feature] = data_source[cluster_feature]
     
     return scaled_data
+
+
+def get_integration_order(code: str) -> int:
+    """Возвращает порядок интегрирования ряда ожидаемой продолжительности жизни
+    для страны, код которой передан
+
+    Args:
+        code (str): код страны
+
+    Returns:
+        int: порядок интегрирования
+    """
+    mask = integration_order_data[F.SpatialDimValueCode.value] == code
+    integration_order = integration_order_data[mask]['IntegrationOrder'].values[0]
+    
+    return integration_order
