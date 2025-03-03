@@ -4,6 +4,9 @@
 # Data files
 **/data/
 
+# Todo files
+TODO.md
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
