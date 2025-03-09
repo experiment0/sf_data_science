@@ -1,6 +1,7 @@
 # Различные вспомогательные функции
 
 import numpy as np
+from numpy.linalg import norm
 import pandas as pd
 import time
 
@@ -62,3 +63,17 @@ def get_exec_time(start: float, end: float) -> str:
     duration = end - start
     formatted_duration = time.strftime("%H:%M:%S", time.gmtime(duration))
     return formatted_duration
+
+
+def get_cosine(A: np.ndarray, B: np.ndarray) -> float:
+    """Считает косинус угла между двумя векторами
+
+    Args:
+        A (np.ndarray): первый вектор
+        B (np.ndarray): второй вектор
+
+    Returns:
+        float: косинус угла между векторами
+    """
+    cosine = np.dot(A, B) / (norm(A) * norm(B))
+    return cosine
