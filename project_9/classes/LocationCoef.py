@@ -21,22 +21,34 @@ from utils.helpers import get_cosine
 class LocationCoef:
     def __init__(
         self,
-        data_source: pd.DataFrame,
         columns_to_exclude: list,
         method: str = 'pearson',
         target_feature_name: str = TARGET_FEATURE,
     ):
-        """Добавляет в исходную таблицу признаки с коэффициентами, которые отражают
+        """Добавляет в таблицу признаки с коэффициентами, которые отражают
             благополучие и неблагополучие стран.
             Подробнее принцип формирования коэффициентов описан здесь ../04_feature_inginiring/02_coef.ipynb
 
         Args:
-            data_source (pd.DataFrame): Исходные данные
-            columns_to_exclude (list): Список столбцов, которые не будут участвовать в формировании групп
+            columns_to_exclude (list): Список столбцов, которые не будут участвовать в формировании признаков
             method (str, optional): Метод, с помощью которого считается коэффициент корреляции. 
                 По умолчанию 'pearson'.
             target_feature_name (str, optional): Имя целевой переменной. 
                 По умолчанию - константа TARGET_FEATURE.
+        """
+        self.columns_to_exclude = columns_to_exclude
+        self.method = method
+        self.target_feature_name = target_feature_name
+    
+    
+    def __prepared_data(self, data_source: pd.DataFrame) -> pd.DataFrame:
+        """Подготавливает исходные данные к добавлению признаков с коэффициентами
+
+        Args:
+            data_source (pd.DataFrame): исходные данные
+
+        Returns:
+            pd.DataFrame: подготовленные данные
         """
         # Копируем таблицу, чтобы не мутировать данные
         data = data_source.copy()
@@ -48,24 +60,24 @@ class LocationCoef:
             data.drop(columns=[F.PositiveCoef.value], inplace=True)
         if (F.NegativeCoef.value in columns):
             data.drop(columns=[F.NegativeCoef.value], inplace=True)
-            
-        self.data = data
-        self.columns_to_exclude = columns_to_exclude
-        self.method = method
-        self.target_feature_name = target_feature_name
+        
+        return data
     
     
-    def __get_split_correlation_fields(self) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    def __get_split_correlation_fields(self, data: pd.DataFrame) -> Tuple[pd.DataFrame, pd.DataFrame]:
         """Формирует две таблицы. 
         Одну с признаками, положительно коррелирующими с целевой переменной 
         (в формате: индекс - имя признака, значение - коэффициент корреляции).
         И вторую аналогичную с отрицательно коррелирующими признаками
         
+        Args:
+            data (pd.DataFrame): исходная таблица, по данным которой смотрим корреляцию
+        
         Returns:
             Tuple[pd.DataFrame, pd.DataFrame]: таблицы данными признаков корреляции
         """
         # Уберем столбцы, которые не будут участвовать в формировании коэффициентов
-        data = self.data.drop(columns=self.columns_to_exclude)
+        data = data.drop(columns=self.columns_to_exclude)
         
         # Матрица корреляции
         data_corr = data.select_dtypes(include=np.number).corr(method=self.method)
@@ -92,9 +104,15 @@ class LocationCoef:
         
         return positive_data, negative_data
     
-    
-    def __create_mean_scaled_data(self):
-        """Создает и сохраняет таблицу со средними масштабированными значениями по каждой стране
+
+    def __get_mean_scaled_data(self, data: pd.DataFrame) -> pd.DataFrame:
+        """Создает и возвращает таблицу со средними масштабированными значениями по каждой стране
+
+        Args:
+            data (pd.DataFrame): исходная таблица
+
+        Returns:
+            pd.DataFrame: таблица со средними масштабированными значениями по каждой стране
         """
         object_columns = [
             F.ParentLocationCode.value,
@@ -103,7 +121,7 @@ class LocationCoef:
         ]
         # Сформируем таблицу со средними значениями по каждой стране
         # Исключим признак с кластером, так как среднее по нему не имеет смысла
-        mean_data = self.data \
+        mean_data = data \
             .drop(columns=self.columns_to_exclude + object_columns + [F.ClusterKMeans.value]) \
             .groupby(F.SpatialDimValueCode.value) \
             .agg('mean') 
@@ -127,7 +145,7 @@ class LocationCoef:
         
         # Сформируем таблицу с признаками кода региона и кластера
         # Чтобы добавить столбец с кластером к mean_scaled_data
-        clusters = self.data.groupby(F.SpatialDimValueCode.value).agg(
+        clusters = data.groupby(F.SpatialDimValueCode.value).agg(
             ClusterKMeans=(F.ClusterKMeans.value, 'first')
         )
         clusters = clusters.reset_index().rename(columns={'index': F.SpatialDimValueCode.value})
@@ -139,11 +157,14 @@ class LocationCoef:
             how='inner',
         )
                     
-        self.mean_scaled_data = mean_scaled_data
+        return mean_scaled_data
     
     
-    def __create_reference_vectors(self):
+    def __create_reference_vectors(self, mean_scaled_data: pd.DataFrame) -> None:
         """Составляет векторы признаков условно идеальной страны и максимально неблагополучной страны.
+
+        Args:
+            mean_scaled_data (pd.DataFrame): таблица со средними масштабированными значениями по каждой стране
         """
         # Вектор максимально благополучной страны
         positive_vector = dict()
@@ -151,9 +172,9 @@ class LocationCoef:
         negative_vector = dict()
 
         # Страны из благополучного кластера
-        good_cluster_data = self.mean_scaled_data[self.mean_scaled_data[F.ClusterKMeans.value] == 0]
+        good_cluster_data = mean_scaled_data[mean_scaled_data[F.ClusterKMeans.value] == 0]
         # Страны из неблагополучного кластера
-        bad_cluster_data = self.mean_scaled_data[self.mean_scaled_data[F.ClusterKMeans.value] == 1]
+        bad_cluster_data = mean_scaled_data[mean_scaled_data[F.ClusterKMeans.value] == 1]
 
         # Заполним данные вектора максимально благополучной страны
         for field in self.positive_fields:
@@ -215,11 +236,18 @@ class LocationCoef:
         return get_cosine(negative_values, np.array(row_values))
     
     
-    def create_coefs(self):
-        """Реализует алгоритм добавления признаков с коэффициентами в исходную таблицу
+    def fit(self, data_source: pd.DataFrame) -> None:
+        """Для исходных данных создает и запоминает таблицу с соответствием
+            кода страны и ее коэффициентов
+
+        Args:
+            data_source (pd.DataFrame): исходная таблица
         """
+        # Подготовим данные таблицы для дальнейших манипуляций
+        data = self.__prepared_data(data_source)
+        
         # Разделим данные по признаку знака коэффициента корреляции с целевой переменной
-        positive_data, negative_data = self.__get_split_correlation_fields()
+        positive_data, negative_data = self.__get_split_correlation_fields(data)
         
         # Составим список с именами положительных признаков и сохраним его
         positive_fields = list(positive_data.index)
@@ -229,28 +257,48 @@ class LocationCoef:
         negative_fields = list(negative_data.index)
         self.negative_fields = negative_fields
         
-        # Создадим и сохраним таблицу со средними масштабированными значениями по каждой стране
-        self.__create_mean_scaled_data()
+        # Создадим таблицу со средними масштабированными значениями по каждой стране
+        mean_scaled_data = self.__get_mean_scaled_data(data)
         
         # Cоставим векторы признаков условно идеальной страны и максимально неблагополучной страны
-        self.__create_reference_vectors()
+        self.__create_reference_vectors(mean_scaled_data)
         
         # Посчитаем для каждой страны значение коэффициента благополучия
-        self.mean_scaled_data[F.PositiveCoef.value] = \
-            self.mean_scaled_data.apply(lambda row: self.__get_positive_coef(row), axis=1)
+        mean_scaled_data[F.PositiveCoef.value] = \
+            mean_scaled_data.apply(lambda row: self.__get_positive_coef(row), axis=1)
         
         # Посчитаем для каждой страны значение коэффициент неблагополучия
-        self.mean_scaled_data[F.NegativeCoef.value] = \
-            self.mean_scaled_data.apply(lambda row: self.__get_negative_coef(row), axis=1)
+        mean_scaled_data[F.NegativeCoef.value] = \
+            mean_scaled_data.apply(lambda row: self.__get_negative_coef(row), axis=1)
         
-        # Добавим полученные коэффициенты в основную таблицу
-        self.data = self.data.merge(
-            self.mean_scaled_data[[
-                F.SpatialDimValueCode.value, F.PositiveCoef.value, F.NegativeCoef.value
-            ]],
+        # Составим таблицу с соответствием кода страны и ее коэффициентов и сохраним
+        location_coefs_data = mean_scaled_data[[ 
+            F.SpatialDimValueCode.value, F.PositiveCoef.value, F.NegativeCoef.value,
+        ]]
+        self.location_coefs_data = location_coefs_data
+    
+    
+    def transform(self, data_source: pd.DataFrame) -> pd.DataFrame:
+        """Добавляет в переданную таблицу признаки с ранее рассчитанными 
+            коэффициентами стран.
+
+        Args:
+            data_source (pd.DataFrame): исходная таблица
+
+        Returns:
+            pd.DataFrame: таблица с добавленными признаками коэффициентов
+        """
+        # Подготовим данные таблицы для дальнейших манипуляций
+        data = self.__prepared_data(data_source)
+        
+        # Добавим коэффициенты в таблицу
+        data = data.merge(
+            self.location_coefs_data,
             on=F.SpatialDimValueCode.value,
             how='left',
         )
         
         # Переставим столбец с таргетом в конец таблицы
-        self.data = move_column_to_end_table(self.data, F.LifeExpectancy.value)
+        data = move_column_to_end_table(data, self.target_feature_name)
+        
+        return data

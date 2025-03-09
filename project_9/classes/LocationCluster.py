@@ -132,7 +132,7 @@ class LocationCluster:
         self.location_cluster_data = location_cluster_data
         
     
-    def add_cluster(self, data_source: pd.DataFrame) -> pd.DataFrame:
+    def transform(self, data_source: pd.DataFrame) -> pd.DataFrame:
         """Добавляет столбец с кластером страны в таблицу
 
         Args:
