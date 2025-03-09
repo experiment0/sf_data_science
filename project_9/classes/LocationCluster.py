@@ -9,6 +9,7 @@ from sklearn.cluster import KMeans
 from utils.constants import (
     F, 
     RANDOM_STATE,
+    TARGET_FEATURE,
 )
 from utils.prepare_data import (
     move_column_to_end_table,
@@ -18,9 +19,29 @@ from utils.prepare_data import (
 class LocationCluster:
     def __init__(
         self,
-        data_source: pd.DataFrame,
         clusters_count: int,
+        target_feature_name: str = TARGET_FEATURE,
     ):
+        """Создает признак кластера стран
+
+        Args:
+            clusters_count (int): количество кластеров
+            target_feature_name (str, optional): Имя целевой переменной. 
+                По умолчанию - константа TARGET_FEATURE.
+        """
+        self.clusters_count = clusters_count
+        self.target_feature_name = target_feature_name
+    
+    
+    def __prepare_data(self, data_source: pd.DataFrame) -> pd.DataFrame:
+        """Подготавливает таблицу к добавлению кластера
+
+        Args:
+            data_source (pd.DataFrame): исходные данные
+
+        Returns:
+            pd.DataFrame: преобразованные данные
+        """
         # Копируем таблицу, чтобы не мутировать данные
         data = data_source.copy()
         
@@ -28,12 +49,17 @@ class LocationCluster:
         if (F.ClusterKMeans.value in list(data.columns)):
             data.drop(columns=[F.ClusterKMeans.value], inplace=True)
         
-        self.data = data
-        self.clusters_count = clusters_count
+        return data
         
-    
-    def __create_mean_scaled_data(self):
-        """Создает и сохраняет таблицу со средними масштабированными значениями по каждой стране
+
+    def __get_mean_scaled_data(self, data: pd.DataFrame) -> pd.DataFrame:
+        """Создает и возвращает таблицу со средними масштабированными значениями по каждой стране
+
+        Args:
+            data (pd.DataFrame): исходная таблица
+
+        Returns:
+            pd.DataFrame: таблица со средними масштабированными значениями по каждой стране
         """
         columns_to_drop = [
             F.Period.value, F.ParentLocationCode.value, 
@@ -41,7 +67,7 @@ class LocationCluster:
         ]
 
         # Посчитаем средние значения признаков по всем странам
-        mean_data = self.data \
+        mean_data = data \
             .drop(columns=columns_to_drop) \
             .groupby(F.SpatialDimValueCode.value) \
             .agg('mean')
@@ -59,37 +85,73 @@ class LocationCluster:
         # Добавим имена столбцов и индекс, которые потерялись при преобразовании
         mean_scaled_data = pd.DataFrame(mean_scaled_data, columns=columns, index=locations_index)
 
-        self.mean_scaled_data = mean_scaled_data
+        return mean_scaled_data
     
-    
-    def __calculate_cluster(self):
+
+    def __create_cluster(self, mean_scaled_data: pd.DataFrame) -> pd.DataFrame:
         """Определяет кластеры для стран и добавляет столбец с их значениями в таблицу
             со средними масштабированными значениями по странам
+
+        Args:
+            mean_scaled_data (pd.DataFrame): таблица со средними масштабированными значениями по странам
+
+        Returns:
+            pd.DataFrame: таблица с добавленны в нее столбцом кластера
         """
         # Создадим объект модели
         k_means_model = KMeans(n_clusters=self.clusters_count, random_state=RANDOM_STATE)
         # Обучим модель
-        k_means_model.fit_predict(self.mean_scaled_data)
+        k_means_model.fit_predict(mean_scaled_data)
         # Создадим столбец с метками кластеров
-        self.mean_scaled_data[F.ClusterKMeans.value] = k_means_model.labels_
+        mean_scaled_data[F.ClusterKMeans.value] = k_means_model.labels_
+        
+        return mean_scaled_data
+    
+    
+    def fit(self, data_source: pd.DataFrame) -> None:
+        """Для входящих данных определят кластер для каждой страны и запоминает эту информацию
+
+        Args:
+            data_source (pd.DataFrame): исходные данные
+        """
+        # Подготовим данные для определения кластера
+        data = self.__prepare_data(data_source)
+        
+        # Создадим таблицу со средними масштабированными значениями по каждой стране
+        mean_scaled_data = self.__get_mean_scaled_data(data)
+        
+        # Определим кластеры стран
+        mean_scaled_data = self.__create_cluster(mean_scaled_data)
+        
+        # Сохраним таблицу с соответствием кода страны и кластера
+        location_cluster_data = mean_scaled_data.reset_index() \
+            .rename(columns={ 'index': F.SpatialDimValueCode.value })
+            
+        location_cluster_data = location_cluster_data[[F.SpatialDimValueCode.value, F.ClusterKMeans.value]]
+        
+        self.location_cluster_data = location_cluster_data
         
     
-    def create_cluster(self):
-        """Реализует алгоритм добавления признака кластера в основную таблицу
+    def add_cluster(self, data_source: pd.DataFrame) -> pd.DataFrame:
+        """Добавляет столбец с кластером страны в таблицу
+
+        Args:
+            data_source (pd.DataFrame): исходная таблица
+
+        Returns:
+            pd.DataFrame: таблица с добавленным столбцом кластера
         """
-        # Создадим и сохраним таблицу со средними масштабированными значениями по каждой стране
-        self.__create_mean_scaled_data()
+        # Подготовим данные для добавления кластера
+        data = self.__prepare_data(data_source)
         
-        # Определим кластеры для таблицы со средними масштабированными значениями по странам
-        self.__calculate_cluster()
-        
-        # Добавим признак с кластером в исходную таблицу 
-        self.mean_scaled_data = self.mean_scaled_data.reset_index() \
-            .rename(columns={ 'index': F.SpatialDimValueCode.value })
-        
-        self.data = self.data.merge(
-            self.mean_scaled_data[[F.SpatialDimValueCode.value, F.ClusterKMeans.value]],
+        # Добавим кластер
+        data = data.merge(
+            self.location_cluster_data,
             on=F.SpatialDimValueCode.value,
             how='left',
         )
-        self.data = move_column_to_end_table(self.data, F.LifeExpectancy.value)
+        
+        # Переставим столбец с целевой переменной в конец таблицы
+        data = move_column_to_end_table(data, self.target_feature_name)
+        
+        return data
