@@ -34,7 +34,7 @@ class LocationCluster:
     
     
     def __prepare_data(self, data_source: pd.DataFrame) -> pd.DataFrame:
-        """Подготавливает таблицу к добавлению кластера
+        """Подготавливает таблицу к определению кластера
 
         Args:
             data_source (pd.DataFrame): исходные данные
@@ -45,9 +45,18 @@ class LocationCluster:
         # Копируем таблицу, чтобы не мутировать данные
         data = data_source.copy()
         
-        # Удалим столбец с кластером на тот случай, если он уже есть в таблице
-        if (F.ClusterKMeans.value in list(data.columns)):
-            data.drop(columns=[F.ClusterKMeans.value], inplace=True)
+        # Удалим столбцы, которые не должны участвовать в формировании кластера
+        data_columns = list(data.columns)
+        columns_to_drop = [
+            F.ClusterKMeans.value,
+            F.SmoothingLifeExpectancy.value,
+            F.PositiveCoef.value,
+            F.NegativeCoef.value,
+        ]
+        common_columns = list(set(data_columns) & set(columns_to_drop))
+        
+        if (len(common_columns) > 0):
+            data.drop(columns=common_columns, inplace=True)
         
         return data
         
@@ -142,7 +151,9 @@ class LocationCluster:
             pd.DataFrame: таблица с добавленным столбцом кластера
         """
         # Подготовим данные для добавления кластера
-        data = self.__prepare_data(data_source)
+        data = data_source.copy()
+        if (F.ClusterKMeans.value in data.columns):
+            data.drop(columns=[F.ClusterKMeans.value], inplace=True)
         
         # Добавим кластер
         data = data.merge(
