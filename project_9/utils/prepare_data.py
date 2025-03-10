@@ -43,12 +43,15 @@ def move_column_to_end_table(
     """
     data = data_source.copy()
     columns = list(data.columns)
-    columns.append(
-        columns.pop(
-            columns.index(column_name)
+    
+    if (column_name in columns):    
+        columns.append(
+            columns.pop(
+                columns.index(column_name)
+            )
         )
-    )
-    data = data[columns]
+        data = data[columns]
+        
     return data
 
 

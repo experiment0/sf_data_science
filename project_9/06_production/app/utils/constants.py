@@ -12,16 +12,22 @@ class F(Enum):
     Sanitation = 'Sanitation'
     GdpPerCapita = 'GdpPerCapita'
     NegativeCoef = 'NegativeCoef'
+    PositiveCoef = 'PositiveCoef'
     ImmunizationMean = 'ImmunizationMean'
     SmoothingLifeExpectancy = 'SmoothingLifeExpectancy'
+    Reg_AFR = 'Reg_AFR'
+    Reg_EUR = 'Reg_EUR'
 
 # Поля, которые будут использоваться для предсказания
 prediction_fields = [
-    F.ImmunizationMean.value,
-    F.NegativeCoef.value,
-    F.GdpPerCapita.value,
     F.Sanitation.value,
+    F.GdpPerCapita.value,
+    F.PositiveCoef.value,
+    F.NegativeCoef.value,
+    F.ImmunizationMean.value,
     F.SmoothingLifeExpectancy.value,
+    F.Reg_AFR.value,
+    F.Reg_EUR.value,
 ]
 
 # Поля, значения которых можно менять через форму
@@ -45,4 +51,3 @@ form_field_max_values = {
     F.ImmunizationMean.value: 100, # максимально 100, т.к. величина выражена в %
     F.GdpPerCapita.value: '', # максимальное значение не указываем, вышажено в долл. США
 }
-
