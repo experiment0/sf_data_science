@@ -4,7 +4,12 @@
 
 Для запуска необходимо создать в данной папке виртуальную среду
 
-для windows: `python -m venv app_venv`
+`python -m venv app_venv`
+
+Запустить ее
+
+для windows: `./app_venv/Scripts/Activate.ps1` \
+для unix: `source app_venv/bin/activate`
 
 И установить для нее библиотеки
 
