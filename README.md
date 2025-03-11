@@ -11,5 +11,6 @@
 - [Проект 6. Решение задачи классификации](https://github.com/experiment0/sf_data_science/tree/main/project_6)
 - [Проект 7. Предсказание длительности поездки на такси (решение задачи регрессии)](https://github.com/experiment0/sf_data_science/tree/main/project_7)
 - [Проект 8. Сегментация клиентов онлайн-магазина подарков](https://github.com/experiment0/sf_data_science/tree/main/project_8)
+- [Проект 9. Предсказание ожидаемой продолжительности жизни в странах](https://github.com/experiment0/sf_data_science/tree/main/project_9)
 
 ## Ссылки на резюме
