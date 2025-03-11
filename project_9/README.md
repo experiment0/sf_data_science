@@ -9,6 +9,10 @@
 [Описание файлов проекта](https://github.com/experiment0/sf_data_science/blob/main/project_9/README.md#Описание-файлов-проекта)\
 [Результат](https://github.com/experiment0/sf_data_science/blob/main/project_9/README.md#Результат)
 
+> Для корректной работы ссылок оглавлений в файлах `*.ipynb` \
+>и просмотра файлов с html графиков, построенных с помощью библиотеки `plotly`, \
+>можно смотреть проект здесь  https://nbviewer.org/github/experiment0/sf_data_science/tree/main/project_9/
+
 ## Описание проекта
 
 В проекте реализовано предсказание ожидаемой продолжительности жизни людей в разных странах.
