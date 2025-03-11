@@ -1,6 +1,6 @@
 # Функции для вывода графиков
 
-from IPython.display import display, Markdown
+from IPython.display import display
 from IPython.core.display import HTML
 import numpy as np
 import pandas as pd
@@ -21,6 +21,24 @@ from utils.prepare_data import (
     get_temp_rename_dict,
     get_renamed_fields,
 )
+
+
+def show_and_save_fig(fig: go.Figure, file_name: str):
+    """Показывает и сохраняет график.
+
+    Args:
+        fig (Figure): объект с графиком
+        file_name (str): имя файла графика без расширения
+    """
+    path_image = f'../plotly/{file_name}.png'
+    path_html = f'../plotly/{file_name}.html'
+    
+    fig.show()
+    fig.write_image(path_image)
+    fig.write_html(path_html)
+    
+    display(HTML(f'<img src="{path_image}" /><br />'))
+    display(HTML(f'<em>html графика в файле <a href="{path_html}" target="_blank">{path_html}</a></em>'))
 
 
 def dislay_correlation_matrix(
@@ -344,6 +362,7 @@ def display_silhouette(
 
 def display_clusters_profiles(
     grouped_data_source: pd.DataFrame, 
+    file_name: str = None,
     title: str = 'Сравнение средних значений признаков в кластерах стран',
     should_display_table: bool = True,
     is_custom_size: bool = True,
@@ -353,6 +372,7 @@ def display_clusters_profiles(
     Args:
         grouped_data_source (pd.DataFrame): данные профилей 
             (обычно среднее по рассматриваемым признакам профилей)
+        file_name (optional, str): имя файла для графика plotly. По умолчанию None
         title (str): заголовок графика.
             По умолчанию "Распределение средних параметров кластеров"
         should_display_table (bool): нужно ли выводить таблицу со значениями.
@@ -394,9 +414,12 @@ def display_clusters_profiles(
         
     # Обновляем параметры фигуры
     fig.update_layout(**fig_layout_prams)
-    
+        
     # Отображаем фигуру
-    fig.show()
+    if (file_name):
+        show_and_save_fig(fig, file_name)
+    else:
+        fig.show()
     
     
 def display_prediction(
