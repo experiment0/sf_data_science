@@ -49,5 +49,5 @@ form_field_descriptions = {
 form_field_max_values = {
     F.Sanitation.value: 100, # максимально 100, т.к. величина выражена в %
     F.ImmunizationMean.value: 100, # максимально 100, т.к. величина выражена в %
-    F.GdpPerCapita.value: '', # максимальное значение не указываем, вышажено в долл. США
+    F.GdpPerCapita.value: '', # максимальное значение не указываем, выражено в долл. США
 }
