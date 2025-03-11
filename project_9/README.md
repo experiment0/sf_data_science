@@ -9,10 +9,6 @@
 [Описание файлов проекта](https://github.com/experiment0/sf_data_science/blob/main/project_9/README.md#Описание-файлов-проекта)\
 [Результат](https://github.com/experiment0/sf_data_science/blob/main/project_9/README.md#Результат)
 
-> Для корректной работы ссылок оглавлений в файлах `*.ipynb` \
->и просмотра файлов с html графиков, построенных с помощью библиотеки `plotly`, \
->можно смотреть проект здесь  https://nbviewer.org/github/experiment0/sf_data_science/tree/main/project_9/
-
 ## Описание проекта
 
 В проекте реализовано предсказание ожидаемой продолжительности жизни людей в разных странах.
@@ -87,5 +83,9 @@
 Поэтому уменьшить ошибку сглаживания экзогенные переменные смогли мало.
 
 Но в целом достигнутая метрика MAE составляет примерно 0.5 года, что кажется неплохим результатом.
+
+> Для корректной работы ссылок оглавлений в файлах `*.ipynb` \
+>и просмотра файлов с html графиков, построенных с помощью библиотеки `plotly`, \
+>можно смотреть проект здесь  https://nbviewer.org/github/experiment0/sf_data_science/tree/main/project_9/
 
 :arrow_up:[к оглавлению](https://github.com/experiment0/sf_data_science/blob/main/project_9/README.md#Оглавление)
