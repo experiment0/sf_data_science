@@ -2,12 +2,12 @@
 
 ## Оглавление
 
-[Описание проекта](https://github.com/experiment0/sf_data_science/blob/main/project_8/README.md#Описание-проекта)\
-[Какой кейс решаем?](https://github.com/experiment0/sf_data_science/blob/main/project_8/README.md#Какой-кейс-решаем)\
-[Краткая информация о данных](https://github.com/experiment0/sf_data_science/blob/main/project_8/README.md#Краткая-информация-о-данных)\
-[Этапы работы над проектом](https://github.com/experiment0/sf_data_science/blob/main/project_8/README.md#Этапы-работы-над-проектом)\
-[Описание файлов проекта](https://github.com/experiment0/sf_data_science/blob/main/project_8/README.md#Описание-файлов-проекта)\
-[Результат](https://github.com/experiment0/sf_data_science/blob/main/project_8/README.md#Результат)
+[Описание проекта](https://github.com/experiment0/sf_data_science/blob/main/project_08/README.md#Описание-проекта)\
+[Какой кейс решаем?](https://github.com/experiment0/sf_data_science/blob/main/project_08/README.md#Какой-кейс-решаем)\
+[Краткая информация о данных](https://github.com/experiment0/sf_data_science/blob/main/project_08/README.md#Краткая-информация-о-данных)\
+[Этапы работы над проектом](https://github.com/experiment0/sf_data_science/blob/main/project_08/README.md#Этапы-работы-над-проектом)\
+[Описание файлов проекта](https://github.com/experiment0/sf_data_science/blob/main/project_08/README.md#Описание-файлов-проекта)\
+[Результат](https://github.com/experiment0/sf_data_science/blob/main/project_08/README.md#Результат)
 
 ## Описание проекта
 
@@ -56,4 +56,4 @@
 При определении кластеров на отложенных данных профили пользователей получились похожими на те, 
 что были определены для тренировочной выборки.
 
-:arrow_up:[к оглавлению](https://github.com/experiment0/sf_data_science/blob/main/project_8/README.md#Оглавление)
+:arrow_up:[к оглавлению](https://github.com/experiment0/sf_data_science/blob/main/project_08/README.md#Оглавление)

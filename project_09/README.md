@@ -2,12 +2,12 @@
 
 ## Оглавление
 
-[Описание проекта](https://github.com/experiment0/sf_data_science/blob/main/project_9/README.md#Описание-проекта)\
-[Какой кейс решаем?](https://github.com/experiment0/sf_data_science/blob/main/project_9/README.md#Какой-кейс-решаем)\
-[Краткая информация о данных](https://github.com/experiment0/sf_data_science/blob/main/project_9/README.md#Краткая-информация-о-данных)\
-[Этапы работы над проектом](https://github.com/experiment0/sf_data_science/blob/main/project_9/README.md#Этапы-работы-над-проектом)\
-[Описание файлов проекта](https://github.com/experiment0/sf_data_science/blob/main/project_9/README.md#Описание-файлов-проекта)\
-[Результат](https://github.com/experiment0/sf_data_science/blob/main/project_9/README.md#Результат)
+[Описание проекта](https://github.com/experiment0/sf_data_science/blob/main/project_09/README.md#Описание-проекта)\
+[Какой кейс решаем?](https://github.com/experiment0/sf_data_science/blob/main/project_09/README.md#Какой-кейс-решаем)\
+[Краткая информация о данных](https://github.com/experiment0/sf_data_science/blob/main/project_09/README.md#Краткая-информация-о-данных)\
+[Этапы работы над проектом](https://github.com/experiment0/sf_data_science/blob/main/project_09/README.md#Этапы-работы-над-проектом)\
+[Описание файлов проекта](https://github.com/experiment0/sf_data_science/blob/main/project_09/README.md#Описание-файлов-проекта)\
+[Результат](https://github.com/experiment0/sf_data_science/blob/main/project_09/README.md#Результат)
 
 ## Описание проекта
 
@@ -88,6 +88,6 @@
 
 > Для корректной работы ссылок оглавлений в файлах `*.ipynb` \
 >и просмотра файлов с html графиков, построенных с помощью библиотеки `plotly`, \
->можно смотреть проект здесь  https://nbviewer.org/github/experiment0/sf_data_science/tree/main/project_9/
+>можно смотреть проект здесь  https://nbviewer.org/github/experiment0/sf_data_science/tree/main/project_09/
 
-:arrow_up:[к оглавлению](https://github.com/experiment0/sf_data_science/blob/main/project_9/README.md#Оглавление)
+:arrow_up:[к оглавлению](https://github.com/experiment0/sf_data_science/blob/main/project_09/README.md#Оглавление)
