@@ -13,4 +13,4 @@
 - [Проект 8. Сегментация клиентов онлайн-магазина подарков](https://github.com/experiment0/sf_data_science/tree/main/project_8)
 - [Проект 9. Предсказание ожидаемой продолжительности жизни в странах](https://github.com/experiment0/sf_data_science/tree/main/project_9)
 
-Ссылка на сертификат об обучении https://disk.yandex.ru/i/RRQ_2R_WgV_7EQ
+Ссылка на сертификат об обучении https://disk.yandex.ru/i/W77fUW-m8xlIIQ
