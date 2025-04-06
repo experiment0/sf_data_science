@@ -13,5 +13,6 @@
 - [Проект 8. Сегментация клиентов онлайн-магазина подарков](https://github.com/experiment0/sf_data_science/tree/main/project_08)
 - [Проект 9. Предсказание ожидаемой продолжительности жизни в странах](https://github.com/experiment0/sf_data_science/tree/main/project_09)
 - [Проект 10. Анализ эффективности двух вариантов посадочной страницы сайта турагенства с помощью A/B тестирования](https://github.com/experiment0/sf_data_science/tree/main/project_10)
+- [Проект 11. Анализ и прогнозирование временного ряда с данными о продажах в сфере розничной торговли и общественного питания в США](https://github.com/experiment0/sf_data_science/tree/main/project_11)
 
 Ссылка на сертификат об обучении https://disk.yandex.ru/i/W77fUW-m8xlIIQ
